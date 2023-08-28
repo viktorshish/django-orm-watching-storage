@@ -46,3 +46,14 @@ def format_duration(duration):
     being_in = f'{hours}ч {minutes}мин'
     
     return being_in
+
+
+def is_visit_long(visit, minutes=60):
+    enteret_time = django.utils.timezone.localtime(visit)
+    leaved_time = django.utils.timezone.localtime(visit)
+    delta_time = leaved_time - enteret_time
+    delta_seconds = delta_time.total_seconds()
+    delta_minutes = int(delta_seconds // 60)
+    if delta_minutes > minutes:
+        return True
+    return False
