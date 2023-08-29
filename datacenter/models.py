@@ -32,9 +32,14 @@ class Visit(models.Model):
         
         
 def get_duration(visit):
-    now_time = django.utils.timezone.localtime()
-    enteret_time = django.utils.timezone.localtime(visit)
-    delta_time = now_time - enteret_time
+    if not visit.leaved_at:
+        now_time = django.utils.timezone.localtime()
+        enteret_time = django.utils.timezone.localtime(visit.entered_at)
+        delta_time = now_time - enteret_time
+    else:
+        enteret_time = django.utils.timezone.localtime(visit.entered_at)
+        leaved_time = django.utils.timezone.localtime(visit.leaved_at) 
+        delta_time = leaved_time - enteret_time
     delta_seconds = delta_time.total_seconds()
     
     return delta_seconds
@@ -48,23 +53,10 @@ def format_duration(duration):
     return being_in
 
 
-def is_visit_long(visit, minutes=60):
-    long_visits = []
-    
-    for visiting in visit:
-        enter = django.utils.timezone.localtime(visiting.entered_at)
-       
-        if not visiting.leaved_at:
-            now_time = django.utils.timezone.localtime()
-            delta_time = now_time - enter
-        else:
-            leaved_time = django.utils.timezone.localtime(visiting.leaved_at)
-            delta_time = leaved_time - enter    
-        delta_seconds = delta_time.total_seconds()
-        delta_minutes = int(delta_seconds // 60)
+def is_visit_long(visit, minutes=60):    
+    delta_seconds = get_duration(visit)
+    delta_minutes = int(delta_seconds // 60)
         
-        if delta_minutes > minutes:
-            long_visits.append(visiting)
-            
-            return True
-        return False
+    if delta_minutes > minutes:            
+        return True
+    return False
