@@ -12,7 +12,7 @@ def storage_information_view(request):
     for visitor in left_inside:
         owner_name_entered = visitor.passcard.owner_name
         enteret_time = django.utils.timezone.localtime(visitor.entered_at)
-        time_left_inside = get_duration(enteret_time)
+        time_left_inside = get_duration(visitor)
         duration = format_duration(time_left_inside)
         passcard_visitor = {
             'who_entered': owner_name_entered,
