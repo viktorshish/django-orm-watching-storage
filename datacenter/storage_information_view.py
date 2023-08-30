@@ -6,17 +6,18 @@ from datacenter.models import Visit
 
 
 def storage_information_view(request):
+    remainder = Visit.objects.filter(leaved_at__isnull=True)
+
     non_closed_visits = []
-    left_inside = Visit.objects.filter(leaved_at__isnull=True)
-    for visitor in left_inside:
+    for visitor in remainder:
         owner_name_entered = visitor.passcard.owner_name
-        entered_time = django.utils.timezone.localtime(visitor.entered_at)
-        time_left_inside = get_duration(visitor)
-        duration = format_duration(time_left_inside)
+        time_entry = django.utils.timezone.localtime(visitor.entered_at)
+        duration = get_duration(visitor)
+        formatted_duration = format_duration(duration)
         passcard_visitor = {
             'who_entered': owner_name_entered,
-            'entered_at': entered_time,
-            'duration': duration
+            'entered_at': time_entry,
+            'duration': formatted_duration
         }
         non_closed_visits.append(passcard_visitor)
 
