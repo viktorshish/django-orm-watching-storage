@@ -61,6 +61,5 @@ def is_visit_long(visit, minutes=60):
     delta_seconds = get_duration(visit)
     delta_minutes = int(delta_seconds // SECONDS_IN_MINUTE)
         
-    if delta_minutes > minutes:            
-        return True
-    return False
+    return delta_minutes > minutes            
+        
