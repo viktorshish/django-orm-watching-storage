@@ -1,4 +1,4 @@
-import django
+from django.utils import timezone
 from django.db import models
 
 
@@ -37,12 +37,12 @@ class Visit(models.Model):
 
 def get_duration(visit):
     if not visit.leaved_at:
-        now_time = django.utils.timezone.localtime()
-        entered_time = django.utils.timezone.localtime(visit.entered_at)
+        now_time = timezone.localtime()
+        entered_time = timezone.localtime(visit.entered_at)
         delta_time = now_time - entered_time
     else:
-        entered_time = django.utils.timezone.localtime(visit.entered_at)
-        leaved_time = django.utils.timezone.localtime(visit.leaved_at)
+        entered_time = timezone.localtime(visit.entered_at)
+        leaved_time = timezone.localtime(visit.leaved_at)
         delta_time = leaved_time - entered_time
 
     duration = delta_time.total_seconds()
