@@ -2,6 +2,10 @@ import django
 from django.db import models
 
 
+SECONDS_IN_HOUR = 3600
+SECONDS_IN_MINUTE = 60
+
+ 
 class Passcard(models.Model):
     is_active = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now=True)
@@ -46,8 +50,8 @@ def get_duration(visit):
 
 
 def format_duration(duration):
-    hours = int(duration // 3600)
-    minutes = int((duration % 3600) // 60)
+    hours = int(duration // SECONDS_IN_HOUR)
+    minutes = int((duration % SECONDS_IN_HOUR) // SECONDS_IN_MINUTE)
     being_in = f'{hours}ч {minutes}мин'
     
     return being_in
@@ -55,7 +59,7 @@ def format_duration(duration):
 
 def is_visit_long(visit, minutes=60):    
     delta_seconds = get_duration(visit)
-    delta_minutes = int(delta_seconds // 60)
+    delta_minutes = int(delta_seconds // SECONDS_IN_MINUTE)
         
     if delta_minutes > minutes:            
         return True
