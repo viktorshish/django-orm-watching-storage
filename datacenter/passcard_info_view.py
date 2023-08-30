@@ -22,7 +22,7 @@ def passcard_info_view(request, passcode):
             'is_strange': is_strange
         }
         this_passcard_visits.append(passcard_visits)
-        
+
     context = {
         'passcard': passcard,
         'this_passcard_visits': this_passcard_visits
