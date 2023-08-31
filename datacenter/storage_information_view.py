@@ -6,9 +6,9 @@ from datacenter.models import Visit
 
 
 def storage_information_view(request):
-    visitors_remaining = Visit.objects.filter(leaved_at__isnull=True)
+    unfinished_visits = Visit.objects.filter(leaved_at__isnull=True)
     non_closed_visits_serialized = []
-    for visit in visitors_remaining:
+    for visit in unfinished_visits:
         non_closed_visits_serialized.append({
             'who_entered': visit.passcard.owner_name,
             'entered_at': timezone.localtime(visit.entered_at),

@@ -8,9 +8,9 @@ from datacenter.models import Visit
 
 def passcard_info_view(request, passcode):
     access_card = get_object_or_404(Passcard, passcode=passcode)
-    visits_passcard = Visit.objects.filter(passcard=access_card)
+    passcard_visits = Visit.objects.filter(passcard=access_card)
     this_passcard_visits_serialized = []
-    for visit in visits_passcard:
+    for visit in passcard_visits:
         this_passcard_visits_serialized.append({
                 'entered_at': timezone.localtime(visit.entered_at),
                 'duration': format_duration(get_duration(visit)),
